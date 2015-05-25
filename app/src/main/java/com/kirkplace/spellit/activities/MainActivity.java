@@ -1,7 +1,6 @@
 package com.kirkplace.spellit.activities;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,14 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kirkplace.spellit.R;
 import com.kirkplace.spellit.constants.SpellitException;
-import com.kirkplace.spellit.dao.WordDAO;
 import com.kirkplace.spellit.dto.GradeDTO;
 import com.kirkplace.spellit.utils.Manager;
 
