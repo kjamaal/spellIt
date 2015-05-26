@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kirkplace.spellit.R;
+import com.kirkplace.spellit.dto.GradeDTO;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +22,7 @@ import com.kirkplace.spellit.R;
 public class GradingFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    private static final GradeDTO grade = new GradeDTO();
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
@@ -39,12 +40,24 @@ public class GradingFragment extends Fragment {
      * @return A new instance of fragment GradingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GradingFragment newInstance(String param1, String param2) {
+    public static GradingFragment newInstance(GradeDTO gradeParam) {
         GradingFragment fragment = new GradingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putSerializable(grade, gradeParam);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        /*
+         if (grade.isCorrect()) {
+                                answer.setText("Correct, hooray");
+                            } else {
+                                answer.setText(grade.getCharMap().get(0).toString());
+                                for (int k : grade.getCharMap().keySet()) {
+                                    Log.d("GradeMap", String.valueOf(k));
+                                    if (k > 0)
+                                        answer.append(String.valueOf(grade.getCharMap().get(k)));
+                                }
+                            }
+         */
         return fragment;
     }
 
@@ -71,7 +84,7 @@ public class GradingFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onFragmentInteraction();
         }
     }
 
@@ -104,7 +117,7 @@ public class GradingFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void onFragmentInteraction();
     }
 
 }
