@@ -7,9 +7,11 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.kirkplace.spellit.R;
 import com.kirkplace.spellit.dto.GradeDTO;
+import com.kirkplace.spellit.utils.Manager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,14 +22,13 @@ import com.kirkplace.spellit.dto.GradeDTO;
  * create an instance of this fragment.
  */
 public class GradingFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final GradeDTO grade = new GradeDTO();
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARG_PARAM_GRADE = "grade";
+    private static final String ARG_PARAM_GAME_MANAGER = "gameManager";
+    public GradeDTO mGrade;
+    public Manager mGameManager;
+    private TextView gradedAnswer;
+    private TextView retry;
 
     private OnFragmentInteractionListener mListener;
 
@@ -35,29 +36,16 @@ public class GradingFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param gradeParam Parameter 1.
      * @return A new instance of fragment GradingFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static GradingFragment newInstance(GradeDTO gradeParam) {
+    public static GradingFragment newInstance(GradeDTO gradeParam, Manager gameManager) {
         GradingFragment fragment = new GradingFragment();
         Bundle args = new Bundle();
-        args.putSerializable(grade, gradeParam);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable(ARG_PARAM_GRADE, gradeParam);
+        args.putParcelable(ARG_PARAM_GAME_MANAGER, gameManager);
         fragment.setArguments(args);
-        /*
-         if (grade.isCorrect()) {
-                                answer.setText("Correct, hooray");
-                            } else {
-                                answer.setText(grade.getCharMap().get(0).toString());
-                                for (int k : grade.getCharMap().keySet()) {
-                                    Log.d("GradeMap", String.valueOf(k));
-                                    if (k > 0)
-                                        answer.append(String.valueOf(grade.getCharMap().get(k)));
-                                }
-                            }
-         */
+
         return fragment;
     }
 
@@ -69,16 +57,32 @@ public class GradingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mGrade = getArguments().getParcelable(ARG_PARAM_GRADE);
+            mGameManager = getArguments().getParcelable(ARG_PARAM_GAME_MANAGER);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_grading, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_grading, container, false);
+        gradedAnswer = (TextView) rootView.findViewById(R.id.gradedAnswer);
+        retry = (TextView) rootView.findViewById(R.id.missingLetters);
+        if (mGrade.isCorrect()) {
+            gradedAnswer.setText("Correct, hooray");
+        } else {
+            gradedAnswer.setText(mGrade.getCharMap().get(0).toString());
+            int i=0;
+            for (int k : mGrade.getCharMap().keySet()) {
+                if (k > 0)
+                    gradedAnswer.append(String.valueOf(mGrade.getCharMap().get(k)));
+                i=k;
+            }
+            if(mGameManager.getWord().getLength()>mGameManager.getAnswer().getLength()){
+
+            }
+        }
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

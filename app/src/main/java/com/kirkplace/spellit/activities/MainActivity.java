@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kirkplace.spellit.R;
@@ -70,7 +71,6 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
         private Manager gameManager = new Manager();
         private GradeDTO grade = new GradeDTO();
         private TextView answer;
-        private final FragmentTransaction fragTrans = getFragmentManager().beginTransaction();
         //private GradingFragment gradeFrag = GradingFragment.newInstance("test", "test");
 
 
@@ -87,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             Button gradeBtn = (Button)rootView.findViewById(R.id.grade);
-            answer = (TextView) rootView.findViewById(R.id.answer);
+            answer = (EditText) rootView.findViewById(R.id.answer);
             gameManager.getNextWord();
             gradeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,8 +96,7 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
                         gameManager.setAnswer(answer.getText().toString());
                         try {
                             grade = gameManager.checkAnswer();
-                            fragTrans.replace(R.id.container, GradingFragment.newInstance(grade));
-                            fragTrans.commit();
+                            getFragmentManager().beginTransaction().replace(R.id.container, GradingFragment.newInstance(grade,gameManager)).commit();
                         } catch (SpellitException e) {
                             answer.setText(e.toString());
                         }

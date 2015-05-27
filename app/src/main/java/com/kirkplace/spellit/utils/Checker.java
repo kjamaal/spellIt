@@ -19,7 +19,7 @@ public class Checker {
     }
 
     public static GradeDTO checkAnswer(WordDTO word, WordDTO answer){
-        for(int i=0;i<word.getChars().length;i++){
+        for(int i=0;i<word.getLength()&&i<answer.getLength();i++){
             if(word.getChars()[i] != answer.getChars()[i]){
                 grade.setCorrect(false);
                 map.put(i,word.getChars()[i]);

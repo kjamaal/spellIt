@@ -1,5 +1,8 @@
 package com.kirkplace.spellit.utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.kirkplace.spellit.constants.SpellitException;
 import com.kirkplace.spellit.dao.GradeDAO;
 import com.kirkplace.spellit.dao.WordDAO;
@@ -9,7 +12,7 @@ import com.kirkplace.spellit.dto.WordDTO;
 /**
  * Created by kirkplace on 4/21/2015.
  */
-public class Manager {
+public class Manager implements Parcelable{
 
     private WordDAO wordManager = new WordDAO();
     private WordDTO word;
@@ -38,5 +41,15 @@ public class Manager {
         else{
             throw new SpellitException("No answer supplied");
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }

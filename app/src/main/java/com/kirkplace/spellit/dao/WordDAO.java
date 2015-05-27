@@ -23,6 +23,6 @@ public class WordDAO {
 
     private String getWord(){
         /*Go get a word from the datastore*/
-        return "test";
+        return "New Text";
     }
 }
