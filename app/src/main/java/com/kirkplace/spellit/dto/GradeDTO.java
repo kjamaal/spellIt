@@ -30,6 +30,13 @@ public class GradeDTO implements Parcelable{
         return charMap;
     }
 
+    public void clear(){
+        if(charMap != null) {
+            isCorrect = false;
+            charMap.clear();
+        }
+    }
+
     @Override
     public int describeContents() {
         return 0;

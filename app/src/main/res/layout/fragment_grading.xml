@@ -11,13 +11,32 @@
         android:text="@string/grading_answer"
         android:id="@+id/gradedAnswer"
         android:layout_gravity="center|top"
-        android:layout_marginTop="@dimen/abc_action_bar_stacked_tab_max_width" />
+        android:layout_marginTop="25dp" />
 
-    <TextView
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/missing_letters"
         android:id="@+id/missingLetters"
-        android:layout_gravity="center" />
+        android:layout_gravity="center|top"
+        android:inputType="text"
+        android:enabled="true"
+        android:layout_marginTop="100dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retry"
+        android:id="@+id/retryBtn"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="100dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Word"
+        android:id="@+id/newWordBtn"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="50dp" />
 
 </FrameLayout>

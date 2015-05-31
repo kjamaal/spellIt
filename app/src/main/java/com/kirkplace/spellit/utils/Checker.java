@@ -19,13 +19,19 @@ public class Checker {
     }
 
     public static GradeDTO checkAnswer(WordDTO word, WordDTO answer){
-        for(int i=0;i<word.getLength()&&i<answer.getLength();i++){
-            if(word.getChars()[i] != answer.getChars()[i]){
-                grade.setCorrect(false);
-                map.put(i,word.getChars()[i]);
-                grade.setCharMap(map);
+        grade.clear();
+        for(int i=0;i<word.getLength();i++){
+            if(i < answer.getLength()){
+                if (word.getChars()[i] != answer.getChars()[i]) {
+                    grade.setCorrect(false);
+                    map.put(i, word.getChars()[i]);
+                } else {
+                    if(map.size() == 0 && word.getLength() == answer.getLength()) {
+                        grade.setCorrect(true);
+                    }
+                }
             }else{
-                grade.setCorrect(true);
+                map.put(i, word.getChars()[i]);
             }
         }
         grade.setCharMap(map);

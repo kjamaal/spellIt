@@ -7,9 +7,12 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kirkplace.spellit.R;
+import com.kirkplace.spellit.constants.SpellitException;
 import com.kirkplace.spellit.dto.GradeDTO;
 import com.kirkplace.spellit.utils.Manager;
 
@@ -28,7 +31,9 @@ public class GradingFragment extends Fragment {
     public GradeDTO mGrade;
     public Manager mGameManager;
     private TextView gradedAnswer;
-    private TextView retry;
+    private EditText retry;
+    private Button retryBtn;
+    private Button newWordBtn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -67,28 +72,73 @@ public class GradingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grading, container, false);
         gradedAnswer = (TextView) rootView.findViewById(R.id.gradedAnswer);
-        retry = (TextView) rootView.findViewById(R.id.missingLetters);
+        retry = (EditText) rootView.findViewById(R.id.missingLetters);
+        retryBtn = (Button) rootView.findViewById(R.id.retryBtn);
+        newWordBtn = (Button) rootView.findViewById(R.id.newWordBtn);
         if (mGrade.isCorrect()) {
             gradedAnswer.setText("Correct, hooray");
+            retry.setVisibility(View.GONE);
+            retryBtn.setVisibility(View.GONE);
         } else {
-            gradedAnswer.setText(mGrade.getCharMap().get(0).toString());
-            int i=0;
-            for (int k : mGrade.getCharMap().keySet()) {
-                if (k > 0)
-                    gradedAnswer.append(String.valueOf(mGrade.getCharMap().get(k)));
-                i=k;
+            retry.setVisibility(View.VISIBLE);
+            retryBtn.setVisibility(View.VISIBLE);
+            for (int k=0;k<mGameManager.getWord().getLength();k++) {
+                if (!mGrade.getCharMap().containsKey(k)) {
+                    gradedAnswer.append(String.valueOf(mGameManager.getWord().getChars()[k])+" ");
+                } else {
+                    gradedAnswer.append("_ ");
+                }
             }
-            if(mGameManager.getWord().getLength()>mGameManager.getAnswer().getLength()){
-
+            if(mGameManager.getWord().getLength() < mGameManager.getAnswer().getLength()){
+                gradedAnswer.append(" Too many letters!");
             }
         }
+        retryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v.getId() == R.id.retryBtn){
+                    mGameManager.setAnswer(retry.getText().toString());
+                    gradedAnswer.setText("");
+                    try{
+                        mGrade = mGameManager.checkAnswer();
+                        if (mGrade.isCorrect()) {
+                            gradedAnswer.setText("Correct, hooray");
+                            retry.setVisibility(View.GONE);
+                            retryBtn.setVisibility(View.GONE);
+                        } else {
+                            retry.setVisibility(View.VISIBLE);
+                            retryBtn.setVisibility(View.VISIBLE);
+                            for (int k=0;k<mGameManager.getWord().getLength();k++) {
+                                if (!mGrade.getCharMap().containsKey(k)) {
+                                    gradedAnswer.append(String.valueOf(mGameManager.getWord().getChars()[k])+" ");
+                                } else {
+                                    gradedAnswer.append("_ ");
+                                }
+                            }
+                            if(mGameManager.getWord().getLength() < mGameManager.getAnswer().getLength()){
+                                gradedAnswer.append(" Too many letters!");
+                            }
+                        }
+                    }catch (SpellitException e){
+                        gradedAnswer.setText(e.toString());
+                    }
+                }
+            }
+        });
+        newWordBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(v.getId() == R.id.newWordBtn){
+                    onButtonPressed(v);
+                }
+            }
+        });
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(View v) {
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            mListener.onFragmentInteraction(v);
         }
     }
 
@@ -121,7 +171,7 @@ public class GradingFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction();
+        public void onFragmentInteraction(View v);
     }
 
 }

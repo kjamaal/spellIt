@@ -25,8 +25,12 @@ import com.kirkplace.spellit.utils.Manager;
 public class MainActivity extends ActionBarActivity implements GradingFragment.OnFragmentInteractionListener{
 
     @Override
-    public void onFragmentInteraction(){
-
+    public void onFragmentInteraction(View v){
+        if(v.getId() == R.id.newWordBtn){
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, new PlaceholderFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -71,14 +75,13 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
         private Manager gameManager = new Manager();
         private GradeDTO grade = new GradeDTO();
         private TextView answer;
-        //private GradingFragment gradeFrag = GradingFragment.newInstance("test", "test");
 
 
         public PlaceholderFragment() {
         }
 
         @Override
-        public void onFragmentInteraction(){
+        public void onFragmentInteraction(View v){
 
         }
 
