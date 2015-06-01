@@ -46,7 +46,7 @@ public class PlayerDAO {
         newPlayer.setNickName(cursor.getString(NICKNAME_INDEX));
         newPlayer.setCurrentLevel(cursor.getInt(CURRENT_LEVEL_INDEX));
         newPlayer.setTotalPoints(cursor.getInt(TOTAL_POINTS_INDEX));
-        
+
         return newPlayer;
     }
 

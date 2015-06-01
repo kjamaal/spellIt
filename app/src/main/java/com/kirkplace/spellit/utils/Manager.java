@@ -1,5 +1,6 @@
 package com.kirkplace.spellit.utils;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,10 +15,14 @@ import com.kirkplace.spellit.dto.WordDTO;
  */
 public class Manager implements Parcelable{
 
-    private WordDAO wordManager = new WordDAO();
+    private WordDAO wordManager;
     private WordDTO word;
     private WordDTO answer;
     private GradeDAO grader = new GradeDAO();
+
+    public Manager(Context ctx){
+        wordManager = new WordDAO(ctx);
+    }
 
     public void setAnswer(String answer){
         this.answer = wordManager.setAnswer(answer);

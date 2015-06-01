@@ -13,4 +13,10 @@ public interface Data extends BaseColumns{
     public static final int NICKNAME_INDEX = 1;
     public static final int CURRENT_LEVEL_INDEX = 2;
     public static final int TOTAL_POINTS_INDEX = 3;
+
+    public static final String WORDS_TABLE_NAME = "words";
+    public static final String WORD = "word";
+    public static final String WORD_LEVEL = "level";
+    public static final int WORD_INDEX = 1;
+    public static final int WORD_LEVEL_INDEX = 2;
 }

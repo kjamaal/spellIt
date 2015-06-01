@@ -12,11 +12,18 @@ public class Database extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "Spellit.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String CREATE_PLAYERS = "CREATE TABLE" + PLAYER_TABLE_NAME + "("
+    private static final String CREATE_PLAYERS = "CREATE TABLE " + PLAYER_TABLE_NAME + "("
             + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NICKNAME + " TEXT NOT NULL,"
             + CURRENT_LEVEL + " INTEGER NOT NULL,"
             + TOTAL_POINTS + " INTEGER NOT NULL);";
+
+    private static final String CREATE_WORDS = "CREATE TABLE " + WORDS_TABLE_NAME + "("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + WORD + " TEXT NOT NULL,"
+            + WORD_LEVEL + " INTEGER NOT NULL);";
+
+    private static final String TEST_INSERT = "INSERT INTO " + WORDS_TABLE_NAME + " VALUES(1,'TEST',1);";
 
     public Database(Context ctx){
         super(ctx,DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,5 +38,7 @@ public class Database extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_PLAYERS);
+        db.execSQL(CREATE_WORDS);
+        db.execSQL(TEST_INSERT);
     }
 }
