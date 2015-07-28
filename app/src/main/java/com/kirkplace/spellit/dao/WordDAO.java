@@ -37,23 +37,11 @@ public class WordDAO {
         WordDTO word = new WordDTO();
         Random rand = new Random();
         db = data.getReadableDatabase();
-        /*db = data.getWritableDatabase();
-        values.put(WORD,"testOne");
-        values.put(WORD_LEVEL,1);
-        db.insert(WORDS_TABLE_NAME,null,values);*/
         Cursor ids = db.query(WORDS_TABLE_NAME, IDS, null, null, null, null, null);
         int selectedID;
-        //selectedID = ids.getCount();
         ids.moveToFirst();
-        while(!ids.isLast()){
-            if(ids.isFirst()) {
-                wordIndexes.add(ids.getInt(0));
-            }else{
-                ids.move(ids.getPosition()+1);
-                wordIndexes.add(ids.getInt(0));
-            }
-        }
-        if(ids.isLast()){
+
+        while(ids.moveToNext()){
             wordIndexes.add(ids.getInt(0));
         }
 
