@@ -1,6 +1,8 @@
 package com.kirkplace.spellit.utils;
 
 import static com.kirkplace.spellit.constants.Data.*;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,6 +14,7 @@ public class Database extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "Spellit.db";
     private static final int DATABASE_VERSION = 1;
+    private static final ContentValues values = new ContentValues();
     private static final String CREATE_PLAYERS = "CREATE TABLE " + PLAYER_TABLE_NAME + "("
             + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + NICKNAME + " TEXT NOT NULL,"
@@ -23,7 +26,7 @@ public class Database extends SQLiteOpenHelper{
             + WORD + " TEXT NOT NULL,"
             + WORD_LEVEL + " INTEGER NOT NULL);";
 
-    private static final String TEST_INSERT = "INSERT INTO " + WORDS_TABLE_NAME + " VALUES(1,'TEST',1);";
+    private static final String TEST_INSERT = "INSERT INTO " + WORDS_TABLE_NAME + " "+ WORD + ", " + WORD_LEVEL + " VALUES('TEST',1), ('TEST1',1), ('TEST2',1);";
 
     public Database(Context ctx){
         super(ctx,DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,8 +40,18 @@ public class Database extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        values.put(WORD,"test");
+        values.put(WORD_LEVEL,1);
+        values.put(WORD,"testOne");
+        values.put(WORD_LEVEL,1);
+        values.put(WORD,"testTwo");
+        values.put(WORD_LEVEL,1);
+        values.put(WORD,"testThree");
+        values.put(WORD_LEVEL,1);
         db.execSQL(CREATE_PLAYERS);
         db.execSQL(CREATE_WORDS);
-        db.execSQL(TEST_INSERT);
+        //db.execSQL(TEST_INSERT);
+        this.getWritableDatabase().insert(WORDS_TABLE_NAME,null,values);
+        //db.insert(WORDS_TABLE_NAME,null,values);
     }
 }

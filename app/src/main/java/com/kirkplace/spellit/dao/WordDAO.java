@@ -11,6 +11,7 @@ import android.content.Context;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +22,7 @@ import java.util.Random;
 public class WordDAO {
 
     private static String[] SELECT_COLUMNS = { WORD, WORD_LEVEL};
-    private static String[] IDS = {"_ID"};
+    private static String[] IDS = {"_id"};
     private ArrayList<Integer> wordIndexes = new ArrayList<Integer>();
     private Database data;
     private ContentValues values;
@@ -36,18 +37,27 @@ public class WordDAO {
         WordDTO word = new WordDTO();
         Random rand = new Random();
         db = data.getReadableDatabase();
+        /*db = data.getWritableDatabase();
+        values.put(WORD,"testOne");
+        values.put(WORD_LEVEL,1);
+        db.insert(WORDS_TABLE_NAME,null,values);*/
         Cursor ids = db.query(WORDS_TABLE_NAME, IDS, null, null, null, null, null);
         int selectedID;
+        //selectedID = ids.getCount();
         ids.moveToFirst();
-        while(!ids.isAfterLast()){
+        while(!ids.isLast()){
             if(ids.isFirst()) {
-                wordIndexes.add(ids.getInt(ids.getColumnIndex("_ID")));
+                wordIndexes.add(ids.getInt(0));
             }else{
                 ids.move(ids.getPosition()+1);
-                wordIndexes.add(ids.getInt(ids.getColumnIndex("_ID")));
+                wordIndexes.add(ids.getInt(0));
             }
         }
-        selectedID = wordIndexes.get(rand.nextInt(wordIndexes.size()-1));
+        if(ids.isLast()){
+            wordIndexes.add(ids.getInt(0));
+        }
+
+        selectedID = wordIndexes.size() > 1 ? wordIndexes.get(rand.nextInt(wordIndexes.size()-1)) : wordIndexes.get(0);
         String selection = _ID + "=" + selectedID;
         Cursor cursor = db.query(WORDS_TABLE_NAME, SELECT_COLUMNS, selection, null, null, null, null);
         cursor.moveToFirst();
