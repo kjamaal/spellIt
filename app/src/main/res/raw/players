@@ -1,0 +1,19 @@
+{
+  "players":[
+    {
+      "nickname":"jonDoe",
+      "current_level":"1",
+      "total_points":"100"
+    },
+    {
+      "nickname":"janeDoe",
+      "current_level":"2",
+      "total_points":"200"
+    },
+    {
+      "nickname":"jimDoe",
+      "current_level":"3",
+      "total_points":"300"
+    }
+]
+}

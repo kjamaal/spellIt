@@ -1,13 +1,9 @@
 package com.kirkplace.spellit.activities;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.Fragment;
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +25,7 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
     public void onFragmentInteraction(View v){
         if(v.getId() == R.id.newWordBtn){
             getFragmentManager().beginTransaction()
-                    .replace(R.id.container, new PlaceholderFragment(this))
+                    .replace(R.id.container, PlaceholderFragment.newInstance(this))
                     .commit();
         }
     }
@@ -40,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment(this))
+                    .add(R.id.container, PlaceholderFragment.newInstance(this))
                     .commit();
         }
     }
@@ -78,8 +74,14 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
         private TextView answer;
 
 
-        public PlaceholderFragment(Context ctx) {
-            gameManager = new Manager(ctx);
+        public static PlaceholderFragment newInstance(Context ctx) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.gameManager = new Manager(ctx);
+            return fragment;
+        }
+
+        public PlaceholderFragment(){
+            //Required empty constructor
         }
 
         @Override

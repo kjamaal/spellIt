@@ -1,7 +1,6 @@
 package com.kirkplace.spellit.activities;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -32,8 +31,6 @@ public class GradingFragment extends Fragment {
     public Manager mGameManager;
     private TextView gradedAnswer;
     private EditText retry;
-    private Button retryBtn;
-    private Button newWordBtn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -73,8 +70,8 @@ public class GradingFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_grading, container, false);
         gradedAnswer = (TextView) rootView.findViewById(R.id.gradedAnswer);
         retry = (EditText) rootView.findViewById(R.id.missingLetters);
-        retryBtn = (Button) rootView.findViewById(R.id.retryBtn);
-        newWordBtn = (Button) rootView.findViewById(R.id.newWordBtn);
+        final Button retryBtn = (Button) rootView.findViewById(R.id.retryBtn);
+        final Button newWordBtn = (Button) rootView.findViewById(R.id.newWordBtn);
         if (mGrade.isCorrect()) {
             gradedAnswer.setText("Correct, hooray");
             retry.setVisibility(View.GONE);
@@ -171,7 +168,7 @@ public class GradingFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(View v);
+        void onFragmentInteraction(View v);
     }
 
 }

@@ -1,0 +1,16 @@
+{
+  "words":[
+    {
+      "word":"jsonTest",
+      "word_level":"1"
+    },
+    {
+      "word":"jsonTest2",
+      "word_level":"2"
+    },
+    {
+      "word":"jsonTest3",
+      "word_level":"3"
+    }
+  ]
+}

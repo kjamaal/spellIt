@@ -19,6 +19,7 @@ public class Manager implements Parcelable{
     private WordDTO word;
     private WordDTO answer;
     private GradeDAO grader = new GradeDAO();
+    private static Creator CREATOR;
 
     public Manager(Context ctx){
         wordManager = new WordDAO(ctx);
