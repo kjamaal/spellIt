@@ -17,6 +17,8 @@ public interface Data extends BaseColumns{
     public static final String WORDS_TABLE_NAME = "words";
     public static final String WORD = "word";
     public static final String WORD_LEVEL = "level";
+    public static final String USAGE = "usage";
     public static final int WORD_INDEX = 0;
-    public static final int WORD_LEVEL_INDEX = 1;
+    public static final int USAGE_INDEX = 1;
+    public static final int WORD_LEVEL_INDEX = 2;
 }

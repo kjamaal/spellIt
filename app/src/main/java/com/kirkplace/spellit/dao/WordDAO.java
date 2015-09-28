@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public class WordDAO {
 
-    private static String[] SELECT_COLUMNS = { WORD, WORD_LEVEL};
+    private static String[] SELECT_COLUMNS = { WORD, USAGE, WORD_LEVEL};
     private static String[] IDS = {"_id"};
     private ArrayList<Integer> wordIndexes = new ArrayList<>();
     private Database data;
@@ -33,20 +33,22 @@ public class WordDAO {
         Random rand = new Random();
         SQLiteDatabase db = data.getReadableDatabase();
         Cursor ids = db.query(WORDS_TABLE_NAME, IDS, null, null, null, null, null);
-        int selectedID;
+        int selectedID = 0;
         ids.moveToFirst();
-
-        while(ids.moveToNext()){
+        wordIndexes.add(ids.getInt(0));
+        while(ids.moveToNext()) {
             wordIndexes.add(ids.getInt(0));
         }
-
         ids.close();
-        selectedID = wordIndexes.size() > 1 ? wordIndexes.get(rand.nextInt(wordIndexes.size()-1)) : wordIndexes.get(0);
+        while(selectedID == 0) {
+            selectedID = wordIndexes.size() > 1 ? wordIndexes.get(rand.nextInt(wordIndexes.size())) : wordIndexes.get(0);
+        }
         String selection = _ID + "=" + selectedID;
         Cursor cursor = db.query(WORDS_TABLE_NAME, SELECT_COLUMNS, selection, null, null, null, null);
         cursor.moveToFirst();
         word.setChars(cursor.getString(WORD_INDEX));
         word.setLength(cursor.getString(WORD_INDEX).length());
+        word.setUsage(cursor.getString(USAGE_INDEX));
         cursor.close();
         return word;
     }

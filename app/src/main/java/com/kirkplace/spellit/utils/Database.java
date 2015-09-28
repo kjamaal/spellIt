@@ -35,6 +35,7 @@ public class Database extends SQLiteOpenHelper{
     private static final String CREATE_WORDS = "CREATE TABLE " + WORDS_TABLE_NAME + "("
             + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + WORD + " TEXT NOT NULL,"
+            + USAGE + " TEXT NOT NULL,"
             + WORD_LEVEL + " INTEGER NOT NULL);";
 
     public Database(Context ctx){
@@ -68,7 +69,7 @@ public class Database extends SQLiteOpenHelper{
             wArray = wordsJson.getJSONArray("words");
             pArray = playersJson.getJSONArray("players");
             for(int i = 0; i < wArray.length(); i++) {
-                db.execSQL("INSERT INTO " + WORDS_TABLE_NAME + " (" + WORD + ", " + WORD_LEVEL + ") VALUES('" + wArray.getJSONObject(i).get("word")+"',"+wArray.getJSONObject(i).getInt("word_level")+");");
+                db.execSQL("INSERT INTO " + WORDS_TABLE_NAME + " (" + WORD + ", "+ USAGE + ", " + WORD_LEVEL + ") VALUES('" + wArray.getJSONObject(i).get("word")+"','"+wArray.getJSONObject(i).get("usage")+"',"+wArray.getJSONObject(i).getInt("word_level")+");");
             }
             for(int i=0; i < pArray.length(); i++){
                 db.execSQL("INSERT INTO " + PLAYER_TABLE_NAME + " (" + NICKNAME + ", " + CURRENT_LEVEL + "," + TOTAL_POINTS + ") VALUES('" + pArray.getJSONObject(i).get("nickname")+"','"+pArray.getJSONObject(i).getInt("current_level")+"','"+pArray.getJSONObject(i).getInt("total_points")+"');");

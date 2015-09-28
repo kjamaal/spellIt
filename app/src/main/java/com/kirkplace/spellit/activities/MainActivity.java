@@ -2,6 +2,7 @@ package com.kirkplace.spellit.activities;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import com.kirkplace.spellit.R;
 import com.kirkplace.spellit.constants.SpellitException;
 import com.kirkplace.spellit.dto.GradeDTO;
 import com.kirkplace.spellit.utils.Manager;
+
+import java.nio.CharBuffer;
+import java.util.Locale;
 
 
 public class MainActivity extends ActionBarActivity implements GradingFragment.OnFragmentInteractionListener{
@@ -40,7 +44,6 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
                     .commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,11 +75,20 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
         private Manager gameManager;
         private GradeDTO grade = new GradeDTO();
         private TextView answer;
+        private Context ctx;
+        private TextToSpeech tts;
+        private CharSequence wordCharSeq;
+        private CharSequence usageCharSeq;
 
+        /*
+        TODO: automatically dload and install samsung tts high quality voice file
+         */
 
         public static PlaceholderFragment newInstance(Context ctx) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             fragment.gameManager = new Manager(ctx);
+            fragment.ctx = ctx;
+            fragment.setRetainInstance(true);
             return fragment;
         }
 
@@ -94,8 +106,21 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             Button gradeBtn = (Button)rootView.findViewById(R.id.grade);
+            Button playWord = (Button) rootView.findViewById(R.id.playWord);
             answer = (EditText) rootView.findViewById(R.id.answer);
-            gameManager.getNextWord();
+            answer.setHint(R.string.answer);
+            if(savedInstanceState == null) {
+                gameManager.getNextWord();
+                wordCharSeq = CharBuffer.wrap(gameManager.getWord().getWordChars());
+                usageCharSeq = CharBuffer.wrap(gameManager.getWord().getUsageChars());
+            }
+            tts = new TextToSpeech(ctx,new TextToSpeech.OnInitListener(){
+                @Override
+                public void onInit(int status) {
+                    tts.setLanguage(Locale.US);
+                    tts.setSpeechRate((float).90);
+                }
+            });
             gradeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,10 +128,19 @@ public class MainActivity extends ActionBarActivity implements GradingFragment.O
                         gameManager.setAnswer(answer.getText().toString());
                         try {
                             grade = gameManager.checkAnswer();
-                            getFragmentManager().beginTransaction().replace(R.id.container, GradingFragment.newInstance(grade,gameManager)).commit();
+                            getFragmentManager().beginTransaction().replace(R.id.container, GradingFragment.newInstance(grade, gameManager)).commit();
                         } catch (SpellitException e) {
                             answer.setText(e.toString());
                         }
+                    }
+                }
+            });
+            playWord.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    if(v.getId() == R.id.playWord){
+                        tts.speak(wordCharSeq, TextToSpeech.QUEUE_FLUSH,null,null);
+                        tts.speak(usageCharSeq, TextToSpeech.QUEUE_ADD,null,null);
                     }
                 }
             });

@@ -38,7 +38,8 @@ public class GradingFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param gradeParam Parameter 1.
+     * @param gradeParam instance of GradeDTO
+     * @param gameManager instance of Manager
      * @return A new instance of fragment GradingFragment.
      */
     public static GradingFragment newInstance(GradeDTO gradeParam, Manager gameManager) {
@@ -81,7 +82,7 @@ public class GradingFragment extends Fragment {
             retryBtn.setVisibility(View.VISIBLE);
             for (int k=0;k<mGameManager.getWord().getLength();k++) {
                 if (!mGrade.getCharMap().containsKey(k)) {
-                    gradedAnswer.append(String.valueOf(mGameManager.getWord().getChars()[k])+" ");
+                    gradedAnswer.append(String.valueOf(mGameManager.getWord().getWordChars()[k])+" ");
                 } else {
                     gradedAnswer.append("_ ");
                 }
@@ -107,7 +108,7 @@ public class GradingFragment extends Fragment {
                             retryBtn.setVisibility(View.VISIBLE);
                             for (int k=0;k<mGameManager.getWord().getLength();k++) {
                                 if (!mGrade.getCharMap().containsKey(k)) {
-                                    gradedAnswer.append(String.valueOf(mGameManager.getWord().getChars()[k])+" ");
+                                    gradedAnswer.append(String.valueOf(mGameManager.getWord().getWordChars()[k])+" ");
                                 } else {
                                     gradedAnswer.append("_ ");
                                 }

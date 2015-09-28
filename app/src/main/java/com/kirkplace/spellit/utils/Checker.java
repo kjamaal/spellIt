@@ -22,16 +22,16 @@ public class Checker {
         grade.clear();
         for(int i=0;i<word.getLength();i++){
             if(i < answer.getLength()){
-                if (word.getChars()[i] != answer.getChars()[i]) {
+                if (word.getWordChars()[i] != answer.getWordChars()[i]) {
                     grade.setCorrect(false);
-                    map.put(i, word.getChars()[i]);
+                    map.put(i, word.getWordChars()[i]);
                 } else {
                     if(map.size() == 0 && word.getLength() == answer.getLength()) {
                         grade.setCorrect(true);
                     }
                 }
             }else{
-                map.put(i, word.getChars()[i]);
+                map.put(i, word.getWordChars()[i]);
             }
         }
         grade.setCharMap(map);

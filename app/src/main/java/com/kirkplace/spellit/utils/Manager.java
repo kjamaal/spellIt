@@ -42,7 +42,7 @@ public class Manager implements Parcelable{
     }
 
     public GradeDTO checkAnswer() throws SpellitException{
-        if(answer.getLength()>0 && answer.getChars().length>0)
+        if(answer.getLength()>0 && answer.getWordChars().length>0)
             return grader.getGrade(word,answer);
         else{
             throw new SpellitException("No answer supplied");

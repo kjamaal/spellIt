@@ -6,6 +6,7 @@ package com.kirkplace.spellit.dto;
 public class WordDTO {
     private int length;
     private char[] chars;
+    private char[] usage;
 
     public void setLength(int length){
         this.length = length;
@@ -15,11 +16,17 @@ public class WordDTO {
         chars = word.toLowerCase().toCharArray();
     }
 
+    public void setUsage(String use){usage = use.toLowerCase().toCharArray();}
+
     public int getLength(){
         return length;
     }
 
-    public char[] getChars(){
+    public char[] getWordChars(){
         return chars;
+    }
+
+    public char[] getUsageChars(){
+        return usage;
     }
 }

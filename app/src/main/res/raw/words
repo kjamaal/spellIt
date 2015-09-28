@@ -1,15 +1,18 @@
 {
   "words":[
     {
-      "word":"jsonTest",
+      "word":"Test",
+      "usage":"We took a test",
       "word_level":"1"
     },
     {
-      "word":"jsonTest2",
+      "word":"Car",
+      "usage":"I can drive a car",
       "word_level":"2"
     },
     {
-      "word":"jsonTest3",
+      "word":"rake",
+      "usage":"I can rake the front yard",
       "word_level":"3"
     }
   ]
